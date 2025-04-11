@@ -59,4 +59,36 @@ class AuthController extends Controller
             'user' => $user
         ]);
     }
+    // Fungsi untuk mengambil data user yang sedang login
+    public function me()
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Token tidak valid atau telah kedaluwarsa'
+            ], 401);
+        }
+
+        return response()->json([
+            'user' => $user
+        ]);
+    }
+
+    // Fungsi logout untuk menghapus token
+    public function logout()
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'message' => 'Token tidak valid atau belum login'
+            ], 401);
+        }
+
+        Auth::logout();
+
+        return response()->json([
+            'message' => 'Successfully logged out',
+        ]);
+    }
+
 }
